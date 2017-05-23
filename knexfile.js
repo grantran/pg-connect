@@ -1,6 +1,6 @@
 // Update with your config settings.
 
-const settings = require("./settings.json")
+const settings = require("./settings")
 
 module.exports = {
 
