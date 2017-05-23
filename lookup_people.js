@@ -10,8 +10,16 @@ const client = new pg.Client({
   ssl      : settings.ssl
 });
 
-let person = process.argv[2];
-console.log(person);
+const person = process.argv[2];
+
+const reformatResults = function (resultsRow) {
+  resultsRow.forEach((item, index) => {
+    let firstName = item.first_name;
+    let lastName = item.last_name;
+    let birthDate = item.birthdate.toString().substring(0,15);
+    console.log(`- ${index +1}: ${firstName} ${lastName}, born '${birthDate}'`);
+  });
+}
 
 client.connect((err) => {
   if (err) throw err;
@@ -21,7 +29,7 @@ client.connect((err) => {
       if (err) throw err;
 
       console.log(`Found ${results.rows.length} person(s) by the name ${person} :`);
-      console.log(results.rows[0]);
+      reformatResults(results.rows);
       client.end(); 
     });
 });
